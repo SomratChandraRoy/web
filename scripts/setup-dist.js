@@ -49,6 +49,13 @@ try {
     
     if (fs.existsSync(buildClientDir)) {
       copyDirRecursive(buildClientDir, distDir);
+      
+      // Create 404.html and 200.html for SPA fallback routing on static hosts (like Appwrite)
+      const indexFile = path.join(distDir, "index.html");
+      if (fs.existsSync(indexFile)) {
+        fs.copyFileSync(indexFile, path.join(distDir, "404.html"));
+        fs.copyFileSync(indexFile, path.join(distDir, "200.html"));
+      }
     }
     
     if (fs.existsSync(buildServerDir)) {

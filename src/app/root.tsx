@@ -39,6 +39,8 @@ import {
   buildOrganizationSchema,
 } from "@/utils/seo";
 import type { Route } from "./+types/root";
+import Lenis from "lenis";
+import Loader from "@/components/Loader";
 
 if (
   import.meta.env.DEV &&
@@ -413,6 +415,33 @@ export function Layout({ children }: { children: ReactNode }) {
   const organizationSchema = buildOrganizationSchema();
   const isMobile =
     typeof window !== "undefined" ? window.innerWidth < 768 : false;
+
+  useEffect(() => {
+    // Initialize Lenis for smooth scrolling
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // https://www.desmos.com/calculator/brs54l4xou
+      direction: 'vertical',
+      gestureDirection: 'vertical',
+      smooth: true,
+      mouseMultiplier: 1,
+      smoothTouch: false,
+      touchMultiplier: 2,
+      infinite: false,
+    });
+
+    function raf(time: number) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+
+    requestAnimationFrame(raf);
+
+    return () => {
+      lenis.destroy();
+    };
+  }, []);
+
   useEffect(() => {
     const handleMessage = (event: MessageEvent) => {
       if (event.data.type === "sandbox:navigation") {
@@ -490,6 +519,7 @@ export function Layout({ children }: { children: ReactNode }) {
         {LoadFontsSSR ? <LoadFontsSSR /> : null}
       </head>
       <body className="bg-white text-gray-900 antialiased">
+        <Loader />
         {children}
         <ClientOnly loader={() => <Toaster position={isMobile ? "top-center" : "bottom-right"} />} />
         <ScrollRestoration />
