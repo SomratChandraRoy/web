@@ -10,16 +10,14 @@ export default function Loader() {
     document.body.style.overflow = 'hidden';
 
     let interval;
+    // Slowly increment progress up to 90% while waiting for assets
     const startLoader = () => {
       interval = setInterval(() => {
         setProgress((prev) => {
-          if (prev >= 100) {
-            clearInterval(interval);
-            return 100;
-          }
-          return prev + Math.floor(Math.random() * 10) + 1;
+          if (prev >= 90) return 90; // Hold at 90% until everything is strictly loaded
+          return prev + Math.floor(Math.random() * 8) + 1;
         });
-      }, 150);
+      }, 200);
     };
 
     startLoader();
@@ -30,18 +28,43 @@ export default function Loader() {
       setTimeout(() => {
         setLoading(false);
         document.body.style.overflow = '';
-      }, 800); // Wait for the progress bar to reach 100% and then fade out
+      }, 1000); // Wait for the progress bar to reach 100% and gracefully fade out
+    };
+
+    const checkAssetsLoaded = async () => {
+      try {
+        // Find all images on the page
+        const images = Array.from(document.images);
+        
+        // Wait for all images to decode/load
+        const imagePromises = images.map((img) => {
+          if (img.complete) return Promise.resolve();
+          return new Promise((resolve) => {
+            img.addEventListener('load', resolve, { once: true });
+            img.addEventListener('error', resolve, { once: true }); // resolve on error to prevent infinite loading
+          });
+        });
+
+        // Wait for fonts to load
+        const fontPromise = document.fonts ? document.fonts.ready : Promise.resolve();
+
+        await Promise.all([...imagePromises, fontPromise]);
+
+        // Add a small artificial delay for the premium emotion feel
+        setTimeout(finishLoading, 600);
+      } catch (err) {
+        finishLoading();
+      }
     };
 
     if (document.readyState === "complete") {
-      // If page already loaded before component mount
-      setTimeout(finishLoading, 500);
+      checkAssetsLoaded();
     } else {
-      window.addEventListener("load", finishLoading);
+      window.addEventListener("load", checkAssetsLoaded);
     }
 
     return () => {
-      window.removeEventListener("load", finishLoading);
+      window.removeEventListener("load", checkAssetsLoaded);
       clearInterval(interval);
       document.body.style.overflow = '';
     };
