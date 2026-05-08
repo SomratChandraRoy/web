@@ -8,6 +8,13 @@ import updatedFetch from "../src/__create/fetch";
 const API_BASENAME = "/api";
 const api = new Hono();
 
+// Build-time Vite glob — included into the bundle so imports are resolved by Vite.
+// @ts-ignore
+const BUILD_ROUTE_MODULES: Record<string, any> = import.meta.glob(
+  "../src/app/api/**/route.js",
+  { eager: true },
+) as any;
+
 // Get current directory
 const __dirname = join(
   fileURLToPath(new URL(".", import.meta.url)),
@@ -47,7 +54,18 @@ async function findRouteFiles(dir: string): Promise<string[]> {
 
 // Helper function to transform file path to Hono route path
 function getHonoPath(routeFile: string): { name: string; pattern: string }[] {
-  const relativePath = routeFile.replace(__dirname, "").replaceAll("\\", "/");
+  // routeFile may be a Vite glob key like '../src/app/api/foo/route.js'
+  // or an absolute filesystem path. Normalize to the portion under src/app/api.
+  let relativePath = routeFile;
+  const marker = "src/app/api";
+  if (routeFile.includes(marker)) {
+    relativePath = routeFile.substring(
+      routeFile.indexOf(marker) + marker.length,
+    );
+  } else if (routeFile.startsWith(__dirname)) {
+    relativePath = routeFile.replace(__dirname, "");
+  }
+  relativePath = relativePath.replaceAll("\\", "/");
   const parts = relativePath.split("/").filter(Boolean);
   const routeParts = parts.slice(0, -1); // Remove 'route.js'
   if (routeParts.length === 0) {
@@ -74,25 +92,42 @@ const toRouteImportUrl = (routeFile: string, cacheBust: string) => {
 
 // Import and register all routes
 async function registerRoutes() {
-  const routeFiles = (
-    await findRouteFiles(__dirname).catch((error) => {
-      console.error("Error finding route files:", error);
-      return [];
-    })
-  )
-    .slice()
-    .sort((a, b) => {
-      return b.length - a.length;
-    });
+  // Prefer build-time included modules when available
+  let routeFiles: string[] = [];
+  if (BUILD_ROUTE_MODULES && Object.keys(BUILD_ROUTE_MODULES).length) {
+    routeFiles = Object.keys(BUILD_ROUTE_MODULES).slice();
+  } else {
+    routeFiles = (
+      await findRouteFiles(__dirname).catch(async (error) => {
+        console.error("Error finding route files in build path:", error);
+        // Try scanning the source directory relative to the project root
+        const altDir = join(process.cwd(), "src/app/api");
+        try {
+          const altFiles = await findRouteFiles(altDir);
+          return altFiles;
+        } catch (err) {
+          console.error("Error finding route files in source path:", err);
+          return [];
+        }
+      })
+    ).slice();
+  }
+
+  routeFiles.sort((a, b) => b.length - a.length);
 
   // Clear existing routes
   api.routes = [];
 
   for (const routeFile of routeFiles) {
     try {
-      const route = await import(
-        /* @vite-ignore */ toRouteImportUrl(routeFile, String(Date.now()))
-      );
+      let route: any;
+      if (BUILD_ROUTE_MODULES && BUILD_ROUTE_MODULES[routeFile]) {
+        route = BUILD_ROUTE_MODULES[routeFile];
+      } else {
+        route = await import(
+          /* @vite-ignore */ toRouteImportUrl(routeFile, String(Date.now()))
+        );
+      }
 
       const methods = ["GET", "POST", "PUT", "DELETE", "PATCH"];
       for (const method of methods) {
