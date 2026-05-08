@@ -40,8 +40,10 @@ export default function HomePage() {
             repeatType: "reverse",
           }}>
           <img
-            src="https://images.unsplash.com/photo-1600210492493-0946911123ea?w=1920&q=90"
+            src="https://images.unsplash.com/photo-1600210492493-0946911123ea?w=1920&q=80&fm=webp"
             alt="Luxury interior design"
+            fetchPriority="high"
+            decoding="async"
             className={`w-full h-full object-cover transition-opacity duration-1000 ${
               heroImageLoaded ? "opacity-100" : "opacity-0"
             }`}

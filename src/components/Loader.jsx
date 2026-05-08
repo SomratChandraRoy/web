@@ -33,10 +33,13 @@ export default function Loader() {
 
     const checkAssetsLoaded = async () => {
       try {
-        // Find all images on the page
-        const images = Array.from(document.images);
+        // Find all images on the page, but ignore lazy-loaded ones
+        // because lazy images won't load until scrolled into view!
+        const images = Array.from(document.images).filter(
+          (img) => img.loading !== 'lazy'
+        );
         
-        // Wait for all images to decode/load
+        // Wait for all eager images to decode/load
         const imagePromises = images.map((img) => {
           if (img.complete) return Promise.resolve();
           return new Promise((resolve) => {
@@ -48,7 +51,13 @@ export default function Loader() {
         // Wait for fonts to load
         const fontPromise = document.fonts ? document.fonts.ready : Promise.resolve();
 
-        await Promise.all([...imagePromises, fontPromise]);
+        // Safety timeout: If assets take more than 4 seconds, force finish to avoid hanging forever
+        const timeoutPromise = new Promise((resolve) => setTimeout(resolve, 4000));
+
+        await Promise.race([
+          Promise.all([...imagePromises, fontPromise]),
+          timeoutPromise
+        ]);
 
         // Add a small artificial delay for the premium emotion feel
         setTimeout(finishLoading, 600);
