@@ -1,0 +1,15 @@
+{
+  "name": "Building Design Studio",
+  "short_name": "Building Design",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FFFFFF",
+  "theme_color": "#B85E44",
+  "icons": [
+    {
+      "src": "/logo.png",
+      "sizes": "any",
+      "type": "image/png"
+    }
+  ]
+}
