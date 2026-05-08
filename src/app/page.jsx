@@ -24,89 +24,134 @@ export default function HomePage() {
     <div className="min-h-screen">
       <Header />
 
-      {/* Premium Emotion Hero Section (No Image) */}
-      <section className="relative h-screen flex items-center justify-center overflow-hidden bg-[#0a0a0a]">
+      {/* Premium Light-Themed Hero Section (Matches Navbar) */}
+      <section className="relative h-screen flex flex-col items-center justify-center overflow-hidden bg-[#FAFAF9]">
         
-        {/* Animated Ambient Gradient Orbs */}
+        {/* Soft, Ambient Light Leaks (Architectural Lighting Effect) */}
         <motion.div
-          className="absolute inset-0 pointer-events-none"
+          className="absolute inset-0 pointer-events-none overflow-hidden"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 3, ease: "easeOut" }}
+          transition={{ duration: 4, ease: "easeOut" }}
         >
+          {/* Top Left Warm Glow */}
           <motion.div
-            className="absolute top-[20%] left-[10%] w-[60vw] h-[60vw] md:w-[40vw] md:h-[40vw] bg-[#B85E44]/20 rounded-full mix-blend-screen filter blur-[80px] md:blur-[120px]"
+            className="absolute -top-[10%] -left-[10%] w-[60vw] h-[60vw] md:w-[45vw] md:h-[45vw] bg-[#B85E44]/10 rounded-full mix-blend-multiply filter blur-[100px] md:blur-[140px]"
             animate={{
-              x: [0, 50, -20, 0],
-              y: [0, -50, 20, 0],
+              x: [0, 40, -20, 0],
+              y: [0, 30, -30, 0],
+              scale: [1, 1.05, 0.95, 1],
+            }}
+            transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
+          />
+          {/* Bottom Right Golden Hour Glow */}
+          <motion.div
+            className="absolute -bottom-[20%] -right-[10%] w-[70vw] h-[70vw] md:w-[50vw] md:h-[50vw] bg-[#D49A78]/15 rounded-full mix-blend-multiply filter blur-[100px] md:blur-[140px]"
+            animate={{
+              x: [0, -50, 20, 0],
+              y: [0, -40, 30, 0],
               scale: [1, 1.1, 0.9, 1],
             }}
-            transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
-          />
-          <motion.div
-            className="absolute bottom-[10%] right-[10%] w-[70vw] h-[70vw] md:w-[50vw] md:h-[50vw] bg-[#D49A78]/15 rounded-full mix-blend-screen filter blur-[80px] md:blur-[120px]"
-            animate={{
-              x: [0, -60, 30, 0],
-              y: [0, 40, -30, 0],
-              scale: [1, 1.2, 0.8, 1],
-            }}
-            transition={{ duration: 25, repeat: Infinity, ease: "easeInOut" }}
+            transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
           />
         </motion.div>
 
-        {/* Subtle overlay texture/grid */}
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,#0a0a0a_100%)] opacity-80" />
+        {/* Elegant Architectural Grid Lines */}
+        <div className="absolute inset-0 pointer-events-none opacity-[0.03]">
+          <div className="absolute left-1/4 top-0 bottom-0 w-px bg-slate-900" />
+          <div className="absolute right-1/4 top-0 bottom-0 w-px bg-slate-900" />
+          <div className="absolute top-1/3 left-0 right-0 h-px bg-slate-900" />
+        </div>
 
         {/* Hero Content */}
-        <div className="relative z-10 max-w-5xl mx-auto px-6 text-center">
+        <div className="relative z-10 max-w-5xl mx-auto px-6 text-center mt-12">
+          {/* Subtle Sub-heading */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
+            className="mb-6 flex justify-center items-center gap-4"
+          >
+            <div className="h-px w-8 bg-[#B85E44]/40" />
+            <span className="text-xs font-semibold uppercase tracking-[0.3em] text-[#B85E44]">Interior & Architecture</span>
+            <div className="h-px w-8 bg-[#B85E44]/40" />
+          </motion.div>
+
+          {/* Main Headline */}
           <motion.h1 
-            initial={{ opacity: 0, y: 60, filter: "blur(12px)" }}
+            initial={{ opacity: 0, y: 40, filter: "blur(10px)" }}
             animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-            transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
-            className="font-playfair-display text-5xl md:text-7xl lg:text-8xl font-semibold text-white mb-6 tracking-tight leading-[1.1]"
+            transition={{ duration: 1.6, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
+            className="font-playfair-display text-5xl md:text-7xl lg:text-[5.5rem] font-semibold text-slate-900 mb-8 tracking-tight leading-[1.1] md:leading-[1.05]"
           >
             Crafting Spaces,
             <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#D49A78] to-[#B85E44]">
-              Elevating Lives.
+            <span className="relative inline-block mt-2">
+              <span className="relative z-10 text-transparent bg-clip-text bg-gradient-to-r from-[#B85E44] to-[#D49A78]">
+                Elevating Lives.
+              </span>
+              <motion.span 
+                className="absolute bottom-1 left-0 h-[3px] w-full bg-[#B85E44]/20 rounded-full origin-left"
+                initial={{ scaleX: 0 }}
+                animate={{ scaleX: 1 }}
+                transition={{ duration: 1.5, delay: 1.2, ease: [0.16, 1, 0.3, 1] }}
+              />
             </span>
           </motion.h1>
           
           <motion.p 
-            initial={{ opacity: 0, y: 30, filter: "blur(8px)" }}
-            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-            transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1], delay: 0.4 }}
-            className="text-lg md:text-xl text-white/70 mb-10 max-w-2xl mx-auto leading-relaxed font-light tracking-wide"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1], delay: 0.5 }}
+            className="text-lg md:text-xl text-slate-600 mb-12 max-w-2xl mx-auto leading-relaxed font-light tracking-wide"
           >
-            Where modern luxury meets Bangladeshi heritage
+            Where modern minimalism meets the rich, textural heritage of Bangladesh. We design sanctuaries for the soul.
           </motion.p>
           
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.6 }}
+            initial={{ opacity: 0, y: 20, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.7 }}
           >
-            <Button href="/portfolio" variant="primary" className="shadow-[0_0_40px_rgba(184,94,68,0.3)] hover:shadow-[0_0_60px_rgba(184,94,68,0.5)] transition-shadow duration-500">
-              View Portfolio
+            <Button 
+              href="/portfolio" 
+              variant="primary" 
+              className="px-8 py-4 text-sm tracking-[0.2em] shadow-[0_20px_40px_-15px_rgba(184,94,68,0.4)] hover:shadow-[0_30px_50px_-20px_rgba(184,94,68,0.6)] hover:-translate-y-1 transition-all duration-500"
+            >
+              Explore Our Work
             </Button>
           </motion.div>
         </div>
 
-        {/* Scroll Indicator */}
+        {/* Floating Abstract Element */}
+        <motion.div 
+          className="absolute right-[5%] top-[25%] hidden lg:block pointer-events-none opacity-60"
+          animate={{ y: [0, 20, 0], rotate: [0, 5, 0] }}
+          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+        >
+          <div className="w-32 h-48 border border-[#B85E44]/20 rounded-full backdrop-blur-3xl mix-blend-multiply" />
+        </motion.div>
+        <motion.div 
+          className="absolute left-[8%] bottom-[20%] hidden lg:block pointer-events-none opacity-40"
+          animate={{ y: [0, -15, 0], rotate: [0, -5, 0] }}
+          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+        >
+          <div className="w-24 h-24 border border-slate-300 rounded-full backdrop-blur-md" />
+        </motion.div>
+
+        {/* Scroll Down Indicator */}
         <motion.div
-          className="absolute bottom-12 left-1/2 -translate-x-1/2"
+          className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.5, duration: 1 }}
         >
+          <span className="text-[9px] font-semibold uppercase tracking-[0.3em] text-slate-400">Scroll</span>
           <motion.div
-            animate={{ y: [0, 10, 0] }}
+            animate={{ y: [0, 8, 0] }}
             transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-          >
-            <div className="w-6 h-10 border-2 border-white/20 rounded-full flex items-start justify-center p-2 backdrop-blur-sm">
-              <div className="w-1 h-2 bg-[#D49A78] rounded-full" />
-            </div>
-          </motion.div>
+            className="w-px h-12 bg-gradient-to-b from-slate-300 to-transparent"
+          />
         </motion.div>
       </section>
 
