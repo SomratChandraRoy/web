@@ -106,7 +106,7 @@ export default function ContactPage() {
                     <h3 className="text-base font-semibold text-gray-900 mb-2">
                       Our Studio
                     </h3>
-                    <p className="text-gray-600 leading-relaxed">
+                    <p className="text-gray-600 leading-relaxed mb-4">
                       {addressLines.map((line) => (
                         <span key={line}>
                           {line}
@@ -114,6 +114,16 @@ export default function ContactPage() {
                         </span>
                       ))}
                     </p>
+                    {site.address?.serviceArea && (
+                      <>
+                        <h4 className="text-sm font-semibold text-gray-900 mb-1">
+                          Service Area
+                        </h4>
+                        <p className="text-gray-600 text-sm leading-relaxed">
+                          {site.address.serviceArea}
+                        </p>
+                      </>
+                    )}
                   </div>
                 </div>
 

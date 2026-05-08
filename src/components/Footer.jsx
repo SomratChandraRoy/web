@@ -89,6 +89,11 @@ export default function Footer() {
               {addressLines.map((line) => (
                 <p key={line}>{line}</p>
               ))}
+              {site.address?.serviceArea && (
+                <p className="pt-2 text-xs italic text-gray-500">
+                  Service Area: {site.address.serviceArea}
+                </p>
+              )}
               <p className="pt-2">
                 <a
                   href={phoneHref}
