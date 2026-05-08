@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import { motion } from "motion/react";
 import { Home as HomeIcon, Briefcase, Sofa, Quote } from "lucide-react";
 import Header from "@/components/Header";
@@ -19,68 +18,95 @@ export const meta = () =>
   });
 
 export default function HomePage() {
-  const [heroImageLoaded, setHeroImageLoaded] = useState(false);
   const featuredProjects = getFeaturedProjects();
 
   return (
     <div className="min-h-screen">
       <Header />
 
-      {/* Hero Section */}
-      <section className="relative h-screen flex items-center justify-center overflow-hidden">
-        {/* Hero Image with Ken Burns Effect */}
+      {/* Premium Emotion Hero Section (No Image) */}
+      <section className="relative h-screen flex items-center justify-center overflow-hidden bg-[#0a0a0a]">
+        
+        {/* Animated Ambient Gradient Orbs */}
         <motion.div
-          className="absolute inset-0"
-          initial={{ scale: 1 }}
-          animate={{ scale: heroImageLoaded ? 1.1 : 1 }}
-          transition={{
-            duration: 20,
-            ease: "linear",
-            repeat: Infinity,
-            repeatType: "reverse",
-          }}>
-          <img
-            src="https://images.unsplash.com/photo-1600210492493-0946911123ea?w=1920&q=80&fm=webp"
-            alt="Luxury interior design"
-            fetchPriority="high"
-            decoding="async"
-            className={`w-full h-full object-cover transition-opacity duration-1000 ${
-              heroImageLoaded ? "opacity-100" : "opacity-0"
-            }`}
-            onLoad={() => setHeroImageLoaded(true)}
+          className="absolute inset-0 pointer-events-none"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 3, ease: "easeOut" }}
+        >
+          <motion.div
+            className="absolute top-[20%] left-[10%] w-[60vw] h-[60vw] md:w-[40vw] md:h-[40vw] bg-[#B85E44]/20 rounded-full mix-blend-screen filter blur-[80px] md:blur-[120px]"
+            animate={{
+              x: [0, 50, -20, 0],
+              y: [0, -50, 20, 0],
+              scale: [1, 1.1, 0.9, 1],
+            }}
+            transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
           />
-          <div className="absolute inset-0 bg-black/30" />
+          <motion.div
+            className="absolute bottom-[10%] right-[10%] w-[70vw] h-[70vw] md:w-[50vw] md:h-[50vw] bg-[#D49A78]/15 rounded-full mix-blend-screen filter blur-[80px] md:blur-[120px]"
+            animate={{
+              x: [0, -60, 30, 0],
+              y: [0, 40, -30, 0],
+              scale: [1, 1.2, 0.8, 1],
+            }}
+            transition={{ duration: 25, repeat: Infinity, ease: "easeInOut" }}
+          />
         </motion.div>
+
+        {/* Subtle overlay texture/grid */}
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,#0a0a0a_100%)] opacity-80" />
 
         {/* Hero Content */}
         <div className="relative z-10 max-w-5xl mx-auto px-6 text-center">
-          <FadeIn>
-            <h1 className="font-playfair-display text-5xl md:text-7xl font-semibold text-white mb-6 tracking-tight leading-tight">
-              Crafting Spaces,
-              <br />
+          <motion.h1 
+            initial={{ opacity: 0, y: 60, filter: "blur(12px)" }}
+            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+            transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
+            className="font-playfair-display text-5xl md:text-7xl lg:text-8xl font-semibold text-white mb-6 tracking-tight leading-[1.1]"
+          >
+            Crafting Spaces,
+            <br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#D49A78] to-[#B85E44]">
               Elevating Lives.
-            </h1>
-          </FadeIn>
-          <FadeIn delay={0.2}>
-            <p className="text-lg md:text-xl text-white/90 mb-10 max-w-2xl mx-auto leading-relaxed">
-              Where modern luxury meets Bangladeshi heritage
-            </p>
-          </FadeIn>
-          <FadeIn delay={0.4}>
-            <Button href="/portfolio" variant="primary">
+            </span>
+          </motion.h1>
+          
+          <motion.p 
+            initial={{ opacity: 0, y: 30, filter: "blur(8px)" }}
+            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+            transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1], delay: 0.4 }}
+            className="text-lg md:text-xl text-white/70 mb-10 max-w-2xl mx-auto leading-relaxed font-light tracking-wide"
+          >
+            Where modern luxury meets Bangladeshi heritage
+          </motion.p>
+          
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.6 }}
+          >
+            <Button href="/portfolio" variant="primary" className="shadow-[0_0_40px_rgba(184,94,68,0.3)] hover:shadow-[0_0_60px_rgba(184,94,68,0.5)] transition-shadow duration-500">
               View Portfolio
             </Button>
-          </FadeIn>
+          </motion.div>
         </div>
 
         {/* Scroll Indicator */}
         <motion.div
           className="absolute bottom-12 left-1/2 -translate-x-1/2"
-          animate={{ y: [0, 10, 0] }}
-          transition={{ duration: 2, repeat: Infinity }}>
-          <div className="w-6 h-10 border-2 border-white/50 rounded-full flex items-start justify-center p-2">
-            <div className="w-1 h-3 bg-white/50 rounded-full" />
-          </div>
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.5, duration: 1 }}
+        >
+          <motion.div
+            animate={{ y: [0, 10, 0] }}
+            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+          >
+            <div className="w-6 h-10 border-2 border-white/20 rounded-full flex items-start justify-center p-2 backdrop-blur-sm">
+              <div className="w-1 h-2 bg-[#D49A78] rounded-full" />
+            </div>
+          </motion.div>
         </motion.div>
       </section>
 
