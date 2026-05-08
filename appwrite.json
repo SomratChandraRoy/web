@@ -1,0 +1,41 @@
+{
+  "$schema": "https://cdn.jsdelivr.net/gh/open-runtimes/schemas@latest/v1/base.json",
+  "name": "Building Design Studio Web",
+  "description": "Professional interior and building design studio web application",
+  "env": [
+    {
+      "name": "DATABASE_URL",
+      "description": "NeonDB connection string",
+      "required": false,
+      "default": ""
+    },
+    {
+      "name": "AUTH_SECRET",
+      "description": "Auth.js secret key",
+      "required": false,
+      "default": ""
+    },
+    {
+      "name": "NEXT_PUBLIC_SITE_URL",
+      "description": "Public site URL",
+      "required": false,
+      "default": ""
+    },
+    {
+      "name": "CORS_ORIGINS",
+      "description": "Allowed CORS origins (comma-separated)",
+      "required": false,
+      "default": ""
+    }
+  ],
+  "entrypoint": "dist/server/index.js",
+  "commands": {
+    "build": "npm run build",
+    "start": "npm start"
+  },
+  "runtime": "node:18.0.0",
+  "readme": "# Building Design Studio\n\nA professional interior and building design web application built with React Router, Hono, and TailwindCSS.\n\n## Features\n\n- SSR with React Router v7\n- Hono backend API\n- NextJS-style file routing\n- Authentication with Auth.js\n- NeonDB serverless database\n- TailwindCSS styling\n- Responsive design\n\n## Deployment\n\nThis application is ready for deployment on Appwrite, Vercel, or any Node.js hosting platform.",
+  "volumes": [],
+  "events": [],
+  "tags": ["react", "router", "hono", "ssr", "appwrite"]
+}

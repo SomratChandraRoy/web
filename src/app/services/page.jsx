@@ -1,4 +1,4 @@
-import { CheckCircle2, Lightbulb, Palette, Hammer, Key } from "lucide-react";
+import { Lightbulb, Palette, Hammer, Key } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import FadeIn from "@/components/FadeIn";
