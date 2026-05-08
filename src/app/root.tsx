@@ -421,11 +421,7 @@ export function Layout({ children }: { children: ReactNode }) {
     const lenis = new Lenis({
       duration: 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // https://www.desmos.com/calculator/brs54l4xou
-      direction: 'vertical',
-      gestureDirection: 'vertical',
-      smooth: true,
-      mouseMultiplier: 1,
-      smoothTouch: false,
+      wheelMultiplier: 1, // renamed from mouseMultiplier
       touchMultiplier: 2,
       infinite: false,
     });

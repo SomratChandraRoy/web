@@ -5,7 +5,10 @@ import { useCallback, useEffect, useState } from 'react';
 
 // Loader removed for SPA compilation
 export function clientLoader() {
-  return { path: window.location.pathname, pages: [] };
+  return { 
+    path: window.location.pathname, 
+    pages: [] as Array<{ path: string; url: string }> 
+  };
 }
 
 interface ParentSitemap {
