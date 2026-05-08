@@ -195,55 +195,23 @@ function InternalErrorBoundary({ error: errorArg }: Route.ErrorBoundaryProps) {
     }
   }
   return (
-    <>
-      {!isInIframe() && (
-        <div
-          className={`fixed bottom-4 left-1/2 transform -translate-x-1/2 max-w-md z-50 transition-all duration-500 ease-out ${
-            isOpen ? "translate-y-0 opacity-100" : "translate-y-full opacity-0"
-          }`}
-          style={{ width: "75vw" }}>
-          <div
-            className="bg-[#18191B] text-[#F2F2F2] rounded-lg p-4 shadow-lg w-full"
-            style={
-              scaleFactor !== 1
-                ? ({
-                    transform: `scale(${scaleFactor})`,
-                    transformOrigin: "bottom center",
-                  } as CSSProperties)
-                : undefined
-            }>
-            <div className="flex items-start gap-3">
-              <div className="flex-shrink-0">
-                <div className="w-8 h-8 bg-[#F2F2F2] rounded-full flex items-center justify-center">
-                  <span className="text-black text-[1.125rem] leading-none">
-                    !
-                  </span>
-                </div>
-              </div>
-
-              <div className="flex flex-col gap-2 flex-1">
-                <div className="flex flex-col gap-1">
-                  <p className="font-light text-[#F2F2F2] text-sm">
-                    App Error Detected
-                  </p>
-                  <p className="text-[#959697] text-sm font-light">
-                    It looks like an error occurred while trying to use your
-                    app.
-                  </p>
-                </div>
-
-                <button
-                  className={`flex flex-row items-center justify-center gap-[4px] outline-none transition-colors rounded-[8px] border-[1px] bg-[#2C2D2F] hover:bg-[#414243] active:bg-[#555658] border-[#414243] text-white ${copyButtonTextClass} ${copyButtonPaddingClass} w-fit`}
-                  type="button"
-                  {...copyButtonProps}>
-                  Copy error
-                </button>
-              </div>
-            </div>
-          </div>
+    <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">
+      <div className="bg-white rounded-lg p-8 shadow-xl max-w-lg w-full border border-red-100">
+        <h1 className="text-2xl font-bold text-red-600 mb-4">Application Error</h1>
+        <p className="text-gray-600 mb-4">
+          We're sorry, but something went wrong. Please try refreshing the page.
+        </p>
+        <div className="bg-gray-50 p-4 rounded overflow-auto mb-4 text-xs font-mono text-gray-800 border border-gray-200">
+          {error instanceof Error ? error.message : String(error)}
         </div>
-      )}
-    </>
+        <button
+          onClick={() => window.location.reload()}
+          className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition-colors"
+        >
+          Refresh Page
+        </button>
+      </div>
+    </div>
   );
 }
 
