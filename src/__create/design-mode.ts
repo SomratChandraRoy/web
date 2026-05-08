@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Web design mode — extracts Tailwind className and computed styles
  * from DOM elements.

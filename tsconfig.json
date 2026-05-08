@@ -23,6 +23,7 @@
 		"strict": true,
 		"paths": {
 			"@/*": ["./src/*"]
-		}
+		},
+		"allowJs": true
 	}
 }
