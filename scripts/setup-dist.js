@@ -41,9 +41,22 @@ try {
       fs.rmSync(distDir, { recursive: true });
     }
 
-    // Copy build to dist
-    copyDirRecursive(buildDir, distDir);
-    console.log("✓ Build output copied to dist/ for Appwrite deployment");
+    // For Appwrite Static Hosting (Web App), it expects index.html at root,
+    // so we copy build/client contents to dist root.
+    // For Appwrite Functions, we copy build/server to dist/server.
+    const buildClientDir = path.join(buildDir, "client");
+    const buildServerDir = path.join(buildDir, "server");
+    
+    if (fs.existsSync(buildClientDir)) {
+      copyDirRecursive(buildClientDir, distDir);
+    }
+    
+    if (fs.existsSync(buildServerDir)) {
+      const distServerDir = path.join(distDir, "server");
+      copyDirRecursive(buildServerDir, distServerDir);
+    }
+    
+    console.log("✓ Build output copied to dist/ for Appwrite deployment (Static & Functions ready)");
   } else {
     console.warn("⚠ Build directory not found");
   }

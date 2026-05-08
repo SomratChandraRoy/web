@@ -522,8 +522,8 @@ export function Layout({ children }: { children: ReactNode }) {
         {LoadFontsSSR ? <LoadFontsSSR /> : null}
       </head>
       <body className="bg-white text-gray-900 antialiased">
-        <ClientOnly loader={() => children} />
-        <Toaster position={isMobile ? "top-center" : "bottom-right"} />
+        {children}
+        <ClientOnly loader={() => <Toaster position={isMobile ? "top-center" : "bottom-right"} />} />
         <ScrollRestoration />
         <Scripts />
         <script
