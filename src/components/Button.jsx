@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 export default function Button({
   children,
   href,
@@ -19,13 +21,24 @@ export default function Button({
   const classes = `${baseStyles} ${variants[variant]} ${className}`;
 
   if (href) {
+    const isExternal = href.startsWith('http') || href.startsWith('mailto:') || href.startsWith('tel:');
+    if (isExternal) {
+      return (
+        <a href={href} className={classes} target="_blank" rel="noopener noreferrer">
+          <span className="relative z-10">{children}</span>
+          {variant === "primary" && (
+            <span className="absolute inset-0 bg-[#9d4e37] transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
+          )}
+        </a>
+      );
+    }
     return (
-      <a href={href} className={classes}>
+      <Link to={href} className={classes}>
         <span className="relative z-10">{children}</span>
         {variant === "primary" && (
           <span className="absolute inset-0 bg-[#9d4e37] transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
         )}
-      </a>
+      </Link>
     );
   }
 

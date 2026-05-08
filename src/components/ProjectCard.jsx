@@ -1,11 +1,12 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 export default function ProjectCard({ project, className = "" }) {
   const [imageLoaded, setImageLoaded] = useState(false);
 
   return (
-    <a
-      href={`/portfolio/${project.id}`}
+    <Link
+      to={`/portfolio/${project.id}`}
       className={`group block relative overflow-hidden ${className}`}
     >
       <div className="relative aspect-[4/5] overflow-hidden bg-gray-100">
@@ -33,6 +34,6 @@ export default function ProjectCard({ project, className = "" }) {
           <div className="w-12 h-0.5 bg-[#B85E44] mt-3 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left delay-200" />
         </div>
       </div>
-    </a>
+    </Link>
   );
 }

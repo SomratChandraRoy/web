@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
+import { Link, NavLink, useLocation } from "react-router-dom";
 import { site } from "@/data/site";
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -28,9 +30,8 @@ export default function Header() {
     "after:content-[''] after:absolute after:-bottom-2 after:left-1/2 after:h-[2px] after:w-8 after:-translate-x-1/2 after:rounded-full after:bg-gradient-to-r after:from-[#B85E44] after:to-[#D49A78] after:origin-center after:scale-x-0 after:transition-transform after:duration-300";
 
   const isActive = (href) => {
-    if (typeof window === "undefined") return false;
-    if (href === "/") return window.location.pathname === "/";
-    return window.location.pathname.startsWith(href);
+    if (href === "/") return location.pathname === "/";
+    return location.pathname.startsWith(href);
   };
 
   return (
@@ -44,7 +45,7 @@ export default function Header() {
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
-          <a href="/" className="group flex items-center gap-3">
+          <Link to="/" className="group flex items-center gap-3">
             <span className="flex h-11 w-11 items-center justify-center rounded-full bg-white/90 shadow-[0_12px_30px_-22px_rgba(0,0,0,0.6)] ring-1 ring-[#B85E44]/20">
               <img
                 src={site.logo}
@@ -62,29 +63,31 @@ export default function Header() {
                 {site.tagline}
               </span>
             </span>
-          </a>
+          </Link>
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-4">
             <div className="flex items-center gap-7 rounded-full bg-white/85 px-6 py-3 shadow-[0_18px_45px_-36px_rgba(15,23,42,0.45)] ring-1 ring-black/5">
               {navLinks.map((link) => (
-                <a
+                <NavLink
                   key={link.href}
-                  href={link.href}
-                  className={`${baseLinkClass} ${underlineClass} ${
-                    isActive(link.href)
-                      ? "text-[#B85E44] after:scale-x-100"
-                      : "text-slate-700/80 hover:text-slate-900 hover:after:scale-x-100"
-                  }`}>
+                  to={link.href}
+                  className={({ isActive: isLinkActive }) =>
+                    `${baseLinkClass} ${underlineClass} ${
+                      isLinkActive || isActive(link.href)
+                        ? "text-[#B85E44] after:scale-x-100"
+                        : "text-slate-700/80 hover:text-slate-900 hover:after:scale-x-100"
+                    }`
+                  }>
                   {link.name}
-                </a>
+                </NavLink>
               ))}
             </div>
-            <a
-              href="/contact"
+            <Link
+              to="/contact"
               className="relative overflow-hidden rounded-full bg-gradient-to-r from-[#B85E44] via-[#C67A55] to-[#D49A78] px-6 py-2.5 text-[11px] font-semibold uppercase tracking-[0.24em] text-white shadow-[0_22px_50px_-32px_rgba(184,94,68,0.8)] ring-1 ring-white/50 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_26px_60px_-34px_rgba(184,94,68,0.9)]">
               Schedule Consultation
-            </a>
+            </Link>
           </nav>
 
           {/* Mobile Menu Button */}
@@ -101,24 +104,26 @@ export default function Header() {
           <nav className="md:hidden border-t border-white/60 bg-white/95 backdrop-blur-xl shadow-[0_24px_60px_-40px_rgba(15,23,42,0.6)]">
             <div className="px-6 py-6 space-y-5">
               {navLinks.map((link) => (
-                <a
+                <NavLink
                   key={link.href}
-                  href={link.href}
+                  to={link.href}
                   onClick={() => setMobileMenuOpen(false)}
-                  className={`block text-sm uppercase tracking-[0.2em] font-semibold transition-colors ${
-                    isActive(link.href)
-                      ? "text-[#B85E44]"
-                      : "text-slate-700 hover:text-slate-900"
-                  }`}>
+                  className={({ isActive: isLinkActive }) =>
+                    `block text-sm uppercase tracking-[0.2em] font-semibold transition-colors ${
+                      isLinkActive || isActive(link.href)
+                        ? "text-[#B85E44]"
+                        : "text-slate-700 hover:text-slate-900"
+                    }`
+                  }>
                   {link.name}
-                </a>
+                </NavLink>
               ))}
-              <a
-                href="/contact"
+              <Link
+                to="/contact"
                 onClick={() => setMobileMenuOpen(false)}
                 className="block rounded-full bg-gradient-to-r from-[#B85E44] via-[#C67A55] to-[#D49A78] text-white px-6 py-3 text-center text-xs font-semibold uppercase tracking-[0.24em] shadow-[0_18px_40px_-26px_rgba(184,94,68,0.9)] transition-all">
                 Schedule Consultation
-              </a>
+              </Link>
             </div>
           </nav>
         )}

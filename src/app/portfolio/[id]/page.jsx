@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { ChevronRight } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -37,9 +38,9 @@ export default function ProjectDetailPage({ params }) {
           <h1 className="font-playfair-display text-4xl font-semibold text-gray-900 mb-4">
             Project Not Found
           </h1>
-          <a href="/portfolio" className="text-[#B85E44] hover:underline">
+          <Link to="/portfolio" className="text-[#B85E44] hover:underline">
             Return to Portfolio
-          </a>
+          </Link>
         </div>
         <Footer />
       </div>
@@ -193,8 +194,8 @@ export default function ProjectDetailPage({ params }) {
       {/* Next Project */}
       <Section background="white" spacing="medium">
         <FadeIn>
-          <a
-            href={`/portfolio/${nextProject.id}`}
+          <Link
+            to={`/portfolio/${nextProject.id}`}
             className="group block relative overflow-hidden">
             <div className="relative w-full h-[60vh] overflow-hidden bg-gray-100">
               <img
@@ -222,7 +223,7 @@ export default function ProjectDetailPage({ params }) {
                 </div>
               </div>
             </div>
-          </a>
+          </Link>
         </FadeIn>
       </Section>
 
